@@ -1,0 +1,9 @@
+{
+  "author_name": "你的名字",
+  "opening": "哈喽大家好，我是你的名字。",
+  "closing": "我是你的名字，我们下期见。",
+  "default_length": 2500,
+  "default_tone": "清楚、具体、像一个查过材料的人在认真解释",
+  "image_preference": "产品与教程优先使用官方真实截图",
+  "wechat_reply_keyword": ""
+}
