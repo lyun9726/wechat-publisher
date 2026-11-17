@@ -22,6 +22,12 @@ def main() -> int:
     parser.add_argument("--min-images", type=int, default=0)
     parser.add_argument("--raphael", action="store_true")
     parser.add_argument("--allow-https", action="store_true")
+    parser.add_argument(
+        "--cover-position",
+        choices=("start", "end", "any"),
+        default="any",
+        help="required cover position among Markdown images",
+    )
     args = parser.parse_args()
 
     errors: list[str] = []
@@ -37,11 +43,19 @@ def main() -> int:
     images = IMAGE_RE.findall(text)
     if len(images) < args.min_images:
         errors.append(f"图片数量 {len(images)} 少于要求的 {args.min_images}")
-    if images:
-        first_alt, first_url = images[0]
-        first_name = Path(urlparse(first_url).path).name.lower()
-        if "封面" not in first_alt and "cover" not in first_alt.lower() and "cover" not in first_name:
-            errors.append("第一张图片没有被识别为封面")
+    def is_cover(item: tuple[str, str]) -> bool:
+        alt, url = item
+        name = Path(urlparse(url).path).name.lower()
+        return "封面" in alt or "cover" in alt.lower() or "cover" in name
+
+    cover_indexes = [index for index, item in enumerate(images) if is_cover(item)]
+    if args.cover_position != "any":
+        if not cover_indexes:
+            errors.append("没有识别到封面图片")
+        elif args.cover_position == "start" and cover_indexes[0] != 0:
+            errors.append("封面不是第一张图片")
+        elif args.cover_position == "end" and cover_indexes[-1] != len(images) - 1:
+            errors.append("封面不是最后一张图片")
 
     if args.raphael and text.lstrip().startswith("# "):
         errors.append("Raphael 正文仍包含 H1 标题")
@@ -82,6 +96,8 @@ def main() -> int:
         "article": str(article),
         "image_count": len(images),
         "checked_files": checked,
+        "cover_indexes": cover_indexes,
+        "cover_position": args.cover_position,
         "errors": errors,
         "warnings": warnings,
         "passed": not errors,

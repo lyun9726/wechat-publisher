@@ -20,7 +20,8 @@ def load_profile(path: Path | None) -> tuple[dict[str, object], Path | None]:
         local = Path.cwd() / "author-profile.json"
         candidate = local if local.is_file() else None
     if candidate is None:
-        return {}, None
+        bundled = Path(__file__).resolve().parent.parent / "assets" / "author-profile.liyun.json"
+        candidate = bundled
     try:
         data = json.loads(candidate.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -68,11 +69,14 @@ def main() -> int:
 
     opening = str(profile.get("opening", "")).strip()
     opening_block = f"{opening}\n\n" if opening else ""
+    closing = str(profile.get("closing", "")).strip()
+    closing_block = f"\n\n{closing}\n" if closing else "\n"
     article = (
         f"# {args.title}\n\n"
         "> 公众号摘要\n>\n> 待填写\n\n"
         f"{opening_block}"
-        "正文从这里开始。\n"
+        "正文从这里开始。"
+        f"{closing_block}"
     )
     (target / "article.md").write_text(article, encoding="utf-8")
 
