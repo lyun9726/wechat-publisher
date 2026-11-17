@@ -27,5 +27,5 @@
 
 ## 交付指纹
 
-- current_fingerprint：
+- current_fingerprint：从正文选一条自然、唯一、长度约 12 至 40 个汉字的完整句子；不能改写链接、标题、图片路径或代码来藏指纹
 - previous_fingerprint：

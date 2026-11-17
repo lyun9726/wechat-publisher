@@ -1,0 +1,11 @@
+{
+  "author_name": "利云",
+  "opening": "哈喽大家好，我是利云。",
+  "closing": "能看到这里的都是凤毛麟角的存在！\n\n如果觉得不错，随手点个赞、在看、转发三连吧~\n\n如果想第一时间收到推送，也可以给我个星标⭐\n\n谢谢你耐心看完我的文章～\n\n我是利云，一个致力于帮你把 AI 变成生产力的博主。我们下期见。",
+  "default_length": 2500,
+  "default_tone": "清楚、具体、像一个查过材料的人在认真解释",
+  "image_preference": "产品、模型和教程优先使用官方真实截图；封面可以基于真实素材排版，不伪造产品界面",
+  "cover_position": "end",
+  "default_delivery": "copyable_html",
+  "wechat_reply_keyword": ""
+}
